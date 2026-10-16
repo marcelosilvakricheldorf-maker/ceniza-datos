@@ -100,6 +100,7 @@ function N.colocar(pos, tam)
 end
 
 -- ProximityPrompt en una parte
+N.prompts = setmetatable({}, { __mode = "k" })
 function N.prompt(parte, accion, objeto, duracion, f, distancia)
 	local pp = Instance.new("ProximityPrompt")
 	pp.ActionText = accion; pp.ObjectText = objeto or ""
@@ -107,6 +108,7 @@ function N.prompt(parte, accion, objeto, duracion, f, distancia)
 	pp.RequiresLineOfSight = false
 	pp.Parent = parte
 	pp.Triggered:Connect(function(plr) f(plr, pp) end)
+	N.prompts[pp] = f
 	return pp
 end
 

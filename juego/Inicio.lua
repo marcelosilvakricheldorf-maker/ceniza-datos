@@ -35,6 +35,14 @@ workspace:GetAttributeChangedSignal("Comando"):Connect(function()
 	if c.powerup then E.soltar(c.powerup, Vector3.new(c.pos[1], c.pos[2], c.pos[3])) end
 	if c.perk and plr then M.aplicarPerk(plr, c.perk) end
 	if c.pausa ~= nil then R.pausa = c.pausa end
+	if c.prompt and plr then
+		-- dispara el ProximityPrompt cuyo padre tiene esa ruta (o el primero que contenga el texto)
+		for pp, f in N.prompts do
+			if pp.Parent and (pp.Parent:GetFullName() == c.prompt or string.find(pp.Parent:GetFullName(), c.prompt, 1, true)) and pp.Enabled then
+				task.spawn(f, plr, pp); break
+			end
+		end
+	end
 end)
 workspace:SetAttribute("CenizaListo", true)
 print("[Ceniza] servidor listo")
