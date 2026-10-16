@@ -52,7 +52,7 @@ local function partida()
 					local s = j.pos and N.colocar(j.pos) or Z.puntoAparicion()
 					if s then Z.crear(j.tipo, s); N.aviso(nil, "¡Mini jefe: " .. j.tipo .. "!", Color3.fromRGB(255, 120, 60)) end
 				end
-				if R.pendientes > 0 and Z.vivos() < maxVivos then
+				if R.pendientes > 0 and Z.vivos() < maxVivos and not R.pausa then
 					local s = Z.puntoAparicion()
 					if s then
 						local tipo = elegirTipo(r)

@@ -345,7 +345,7 @@ local function animarSobreviviente(c, dt)
 		-- el cuerpo gira hacia donde apunta la cámara cuando hay arma
 		if cfg then
 			local plano = Vector3.new(look.X, 0, look.Z)
-			if plano.Magnitude > 0.1 and h.MoveDirection.Magnitude < 0.1 then
+			if plano.Magnitude > 0.1 and h.MoveDirection.Magnitude < 0.1 and not yo:GetAttribute("NoGirar") then
 				raiz.CFrame = CFrame.lookAt(raiz.Position, raiz.Position + plano)
 			end
 			h.AutoRotate = h.MoveDirection.Magnitude > 0.1

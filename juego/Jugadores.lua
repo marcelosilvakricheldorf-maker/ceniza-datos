@@ -39,6 +39,7 @@ function J.aparecer(plr, cf)
 	local at = Instance.new("Attachment"); at.Name = "RightGripAttachment"; at.Position = Vector3.new(0, -mano.Size.Y * 0.3, 0); at.Parent = mano
 	local at2 = Instance.new("Attachment"); at2.Name = "LeftGripAttachment"; at2.Position = Vector3.new(0, -m.LeftHand.Size.Y * 0.3, 0); at2.Parent = m.LeftHand
 	local h = m.Humanoid
+	local an = h:FindFirstChildOfClass("Animator"); if an then an:Destroy() end
 	h.BreakJointsOnDeath = false
 	h.MaxHealth = J.vidaMax(plr); h.Health = h.MaxHealth
 	h.WalkSpeed = 16 * (plr:GetAttribute("Perk_ZancadaLunar") and 1.12 or 1)

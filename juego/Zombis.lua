@@ -74,6 +74,7 @@ local function prepararRig(nombre, escala)
 	end
 	if escala and escala ~= 1 then m:ScaleTo(escala) end
 	local h = m.Humanoid
+	local an = h:FindFirstChildOfClass("Animator"); if an then an:Destroy() end
 	h.BreakJointsOnDeath = false; h.RequiresNeck = false
 	h.DisplayDistanceType = Enum.HumanoidDisplayDistanceType.None
 	h:SetStateEnabled(Enum.HumanoidStateType.Climbing, true)
