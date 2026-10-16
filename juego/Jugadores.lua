@@ -62,7 +62,7 @@ end
 function J.danar(plr, dano, fuente)
 	local c = plr.Character
 	local h = c and c:FindFirstChildOfClass("Humanoid")
-	if not h or plr:GetAttribute("Caido") or plr:GetAttribute("Invulnerable") then return end
+	if not h or plr:GetAttribute("Caido") or plr:GetAttribute("Invulnerable") or workspace:GetAttribute("ModoPrueba") then return end
 	J.ultimoGolpe[plr] = os.clock()
 	N.emitir("JugadorGolpeado", plr, dano, fuente)
 	if h.Health - dano <= 0 then

@@ -26,7 +26,7 @@ local function texto(props)
 	local t = Instance.new("TextLabel")
 	t.BackgroundTransparency = 1; t.Font = props.Font or FUENTE; t.TextColor3 = props.Color or Color3.new(1, 1, 1)
 	t.TextStrokeTransparency = 0.5; t.TextScaled = props.Scaled or false; t.TextSize = props.Size or 20
-	t.Text = props.Text or ""; t.AnchorPoint = props.Anchor or Vector2.zero; t.Position = props.Pos; t.Size = props.Dim
+	t.Text = props.Text or ""; t.AnchorPoint = props.Anchor or Vector2.zero; if props.Pos then t.Position = props.Pos end; t.Size = props.Dim
 	t.TextXAlignment = props.AlignX or Enum.TextXAlignment.Center
 	t.Parent = props.Parent or gui
 	return t
