@@ -419,6 +419,11 @@ local function animarZombi(m, dt)
 	elseif not quiere and hl then hl:Destroy() end
 end
 
+local errores = {}
+local function seguro(f, ...)
+	local ok, e = pcall(f, ...)
+	if not ok and not errores[tostring(e)] then errores[tostring(e)] = true; warn("[CenizaCliente] " .. tostring(e)) end
+end
 local carpetaZ = workspace:WaitForChild("Zombis", 30)
 local cuadro = 0
 RunService.RenderStepped:Connect(function(dt)
@@ -429,14 +434,14 @@ RunService.RenderStepped:Connect(function(dt)
 			local r = m:FindFirstChild("HumanoidRootPart")
 			if r then
 				local d = (r.Position - pc).Magnitude
-				if d < 70 or (d < 180 and cuadro % 3 == 0) then pcall(animarZombi, m, d < 70 and dt or dt * 3) end
+				if d < 70 or (d < 180 and cuadro % 3 == 0) then seguro(animarZombi, m, d < 70 and dt or dt * 3) end
 			end
 		end
 	end
 	for _, p in Players:GetPlayers() do
-		if p.Character then pcall(animarSobreviviente, p.Character, dt) end
+		if p.Character then seguro(animarSobreviviente, p.Character, dt) end
 	end
-	aplicarClips()
+	seguro(aplicarClips)
 	if disparando and cfgActual and cfgActual.auto then disparar() end
 end)
 
