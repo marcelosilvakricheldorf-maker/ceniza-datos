@@ -54,6 +54,7 @@ function C.malla(geo, m)
 end
 
 function C.subir(obj, tipo, nombre)
+	nombre = string.sub(nombre, 1, 48)
 	for intento = 1, 6 do
 		local ok, res, id = pcall(AS.CreateAssetAsync, AS, obj, tipo, { Name = nombre, Description = "Ceniza" })
 		if ok and res == Enum.CreateAssetResult.Success then return id end

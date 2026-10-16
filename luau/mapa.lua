@@ -87,8 +87,8 @@ task.spawn(function()
 			pt.Anchored = true; pt.CanCollide = false; pt.CanTouch = false; pt.CanQuery = false; pt.CastShadow = false
 			pt.Transparency = 1; pt.Size = Vector3.new(0.2, 0.2, 0.2); pt.Position = Vector3.new(f[1], f[2], f[3])
 			local l = Instance.new("PointLight")
-			l.Color = Color3.new(f[4], f[5], f[6]); l.Range = math.min(f[7] * 1.5, 60)
-			l.Brightness = f[8] * (f[9] > 0.5 and 1.6 or 1); l.Shadows = f[9] > 0.5
+			l.Color = Color3.new(f[4], f[5], f[6]); l.Range = math.min(f[7] * 1.125, 45)
+			l.Brightness = math.clamp(f[8] * (f[9] > 0.5 and 1.6 or 1) * 0.35, 0.55, 1.0); l.Shadows = f[9] > 0.5
 			l.Parent = pt; pt.Parent = lote
 			E.hechas += 1
 		end
@@ -112,9 +112,8 @@ task.spawn(function()
 		fLu.Parent = raiz
 		-- iluminación nocturna como en el visor
 		local L = game:GetService("Lighting")
-		L.Technology = Enum.Technology.Future
-		L.ClockTime = 0; L.Brightness = 1.2; L.EnvironmentDiffuseScale = 0.3; L.EnvironmentSpecularScale = 0.4
-		L.Ambient = Color3.fromRGB(26, 30, 42); L.OutdoorAmbient = Color3.fromRGB(46, 52, 74)
+				L.ClockTime = 0; L.Brightness = 0.6; L.ExposureCompensation = -0.3; L.EnvironmentDiffuseScale = 0.3; L.EnvironmentSpecularScale = 0.4
+		L.Ambient = Color3.fromRGB(34, 36, 46); L.OutdoorAmbient = Color3.fromRGB(34, 38, 52)
 		L.ColorShift_Top = Color3.fromRGB(128, 144, 192); L.FogEnd = 100000
 		local at = L:FindFirstChildOfClass("Atmosphere") or Instance.new("Atmosphere", L)
 		at.Density = 0.42; at.Offset = 0.1; at.Color = Color3.fromRGB(20, 21, 27); at.Decay = Color3.fromRGB(11, 12, 17); at.Glare = 0; at.Haze = 2.5
