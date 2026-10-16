@@ -297,7 +297,7 @@ local function crearObjetos()
 	-- consolas del Reactor (paso 9)
 	for i, pos in EE.Consolas do
 		local sc = N.colocar(pos, Vector3.new(2, 3, 2))
-		local c = N.parte({ Name = "Consola", Size = Vector3.new(2, 3, 1.4), Color = Color3.fromRGB(50, 60, 70), Material = Enum.Material.DiamondPlate })
+		local c = N.parte({ Name = "Consola" .. i, Size = Vector3.new(2, 3, 1.4), Color = Color3.fromRGB(50, 60, 70), Material = Enum.Material.DiamondPlate })
 		c.CFrame = CFrame.new(sc + Vector3.new(0, 1.5, 0)); c.Parent = carpeta
 		N.prompt(c, "Liberar núcleo", "Consola " .. i, 1, function(plr)
 			if S.paso < 8 then N.aviso(plr, "La consola no responde: el tren todavía no llegó al Nivel 5") return end
@@ -347,7 +347,7 @@ function S.recorrido(plr)
 			local partes = {}
 			for k = 1, 2 do
 				local pos = N.colocar(b + Vector3.new(k == 1 and -6 or 6, 0, 4), Vector3.new(1, 3, 1))
-				local pa = N.parte({ Name = "Aguja", Size = Vector3.new(0.4, 2.4, 0.4), Color = Color3.fromRGB(230, 200, 40), Material = Enum.Material.Metal })
+				local pa = N.parte({ Name = "Aguja" .. k, Size = Vector3.new(0.4, 2.4, 0.4), Color = Color3.fromRGB(230, 200, 40), Material = Enum.Material.Metal })
 				pa.CFrame = CFrame.new(pos + Vector3.new(0, 1.2, 0)); pa.Parent = carpeta
 				partes[k] = pa
 				N.prompt(pa, "Bajar palanca", "Cambio de agujas", 0.5, function(q)
@@ -387,7 +387,7 @@ N.on("PuertaAbierta", function(id, plr)
 	local frenos = {}
 	for i, pos in EE.Frenos do
 		local s = N.colocar(pos, Vector3.new(1, 3, 1))
-		local f = N.parte({ Name = "Freno", Size = Vector3.new(1.2, 1, 2.4), Color = Color3.fromRGB(200, 40, 30), Material = Enum.Material.Metal })
+		local f = N.parte({ Name = "Freno" .. i, Size = Vector3.new(1.2, 1, 2.4), Color = Color3.fromRGB(200, 40, 30), Material = Enum.Material.Metal })
 		f.CFrame = CFrame.new(s + Vector3.new(0, 0.5, 0)); f:SetAttribute("Trabado", false); f.Parent = carpeta
 		N.prompt(f, "Soltar freno", "Freno de vía", 1, function() f:SetAttribute("Trabado", false); f.Color = Color3.fromRGB(60, 200, 90) end)
 		frenos[i] = f
@@ -400,17 +400,19 @@ N.on("PuertaAbierta", function(id, plr)
 	local luz = Instance.new("PointLight"); luz.Color = Color3.fromRGB(255, 120, 30); luz.Range = 20; luz.Brightness = 3; luz.Parent = nucleo
 	local progreso, total = 0, 240
 	local minuto = 0
+	local ultima = os.clock()
 	while progreso < total do
-		task.wait(1)
+		task.wait(0.5)
+		local dt = os.clock() - ultima; ultima = os.clock()
 		local cerca = false
 		for _, p in N.vivos() do if (p.Character.HumanoidRootPart.Position - nucleo.Position).Magnitude < 14 then cerca = true end end
 		local libres = true
 		for _, f in frenos do if f:GetAttribute("Trabado") then libres = false end end
-		if cerca and libres then progreso += 1 end
+		if cerca and libres then progreso = math.min(total, progreso + dt) end
 		nucleo.Position = inicio:Lerp(fondo, progreso / total)
 		workspace:SetAttribute("FinalProgreso", progreso / total)
 		-- los zombis traban los frenos
-		if math.random() < 0.06 then local f = frenos[math.random(#frenos)]; f:SetAttribute("Trabado", true); f.Color = Color3.fromRGB(200, 40, 30); N.aviso(nil, "¡Un freno se trabó!", Color3.fromRGB(255, 80, 60)) end
+		if math.random() < 0.06 * dt then local f = frenos[math.random(#frenos)]; f:SetAttribute("Trabado", true); f.Color = Color3.fromRGB(200, 40, 30); N.aviso(nil, "¡Un freno se trabó!", Color3.fromRGB(255, 80, 60)) end
 		local m = math.floor(progreso / 60) + 1
 		if m > minuto and m <= 4 then
 			minuto = m
