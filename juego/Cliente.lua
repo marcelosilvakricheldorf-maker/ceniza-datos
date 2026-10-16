@@ -126,7 +126,7 @@ local function datos(tool) cacheDatos[tool] = cacheDatos[tool] or datosDe(tool);
 local function reproducirClip(tool, nombre, dur)
 	local d = datos(tool); if not d or not d.clips or not d.clips[nombre] then return end
 	local clip = d.clips[nombre]
-	clipsActivos[tool] = { clip = clip, t0 = os.clock(), escala = dur and (clip.dur / dur) or 1 }
+	clipsActivos[tool] = { clip = clip, t0 = os.clock(), escala = dur and (clip.dur / dur) or 1, k = d.escala or 1 }
 end
 
 local function aplicarClips()
@@ -137,7 +137,7 @@ local function aplicarClips()
 		if fin then t = st.clip.dur end
 		local h = tool:FindFirstChild("Handle")
 		for nombre, pista in st.clip.pistas do
-			local cf, vis = Anim.muestraPista(pista, t)
+			local cf, vis = Anim.muestraPista(pista, t, st.k)
 			if nombre == "raiz" then
 				local mano = tool.Parent and tool.Parent:FindFirstChild("RightHand")
 				local w = mano and mano:FindFirstChild("RightGrip")

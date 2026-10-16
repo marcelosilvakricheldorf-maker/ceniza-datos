@@ -104,7 +104,7 @@ Anim.v2r = v2r
 local function rotVista(a)
 	return CFrame.Angles(0, 0, rad(-a[1])) * CFrame.Angles(0, rad(a[2]), 0) * CFrame.Angles(rad(a[3]), 0, 0)
 end
-function Anim.muestraPista(pista, t)
+function Anim.muestraPista(pista, t, escala)
 	local k = pista.k
 	local i = 1
 	while k[i + 1] and k[i + 1].t <= t do i += 1 end
@@ -114,7 +114,7 @@ function Anim.muestraPista(pista, t)
 	local o = (a.o and b.o) and { a.o[1] + (b.o[1] - a.o[1]) * f, a.o[2] + (b.o[2] - a.o[2]) * f, a.o[3] + (b.o[3] - a.o[3]) * f } or { 0, 0, 0 }
 	local r = (a.a and b.a) and { a.a[1] + (b.a[1] - a.a[1]) * f, a.a[2] + (b.a[2] - a.a[2]) * f, a.a[3] + (b.a[3] - a.a[3]) * f } or { 0, 0, 0 }
 	local vis = (a.v == nil or a.v ~= 0)
-	return CFrame.new(v2r(o)) * rotVista(r), vis
+	return CFrame.new(v2r(o) * (escala or 1)) * rotVista(r), vis
 end
 
 return Anim
