@@ -145,8 +145,12 @@ local function crearObjetos()
 		task.spawn(function() local t = 0 while v.Parent do t += 0.05; v.Transparency = 0.25 + 0.25 * math.sin(t * 2); task.wait(0.05) end end)
 	end
 	N.on("Remolino", function(plr, pos, radio)
+		local cerca, dmin = nil, radio
 		for i, v in S.vetas do
-			if v.Parent and (v.Position - pos).Magnitude < radio then
+			if v.Parent and (v.Position - pos).Magnitude < dmin then cerca = v; dmin = (v.Position - pos).Magnitude end
+		end
+		for i, v in S.vetas do
+			if v == cerca then
 				v:Destroy()
 				local quedan = 0; for _, x in S.vetas do if x.Parent then quedan += 1 end end
 				N.aviso(nil, "Veta de cinerita arrancada (" .. (3 - quedan) .. "/3)", Color3.fromRGB(255, 120, 40))
@@ -436,6 +440,19 @@ N.on("PuertaAbierta", function(id, plr)
 	N.Evento:FireAllClients("Final")
 	avanzar(11)
 end)
+
+-- solo pruebas: deja la misión como si se hubieran completado los pasos hasta n
+function S.debugPaso(n)
+	if n >= 1 and not S.hojaImpresa then S.hoja = { "Copo", "Pico", "Llama" }; S.hojaImpresa = true end
+	if n >= 2 then S.varillas.Ceniza = true end
+	if n >= 3 then S.varillas.Escarcha = true end
+	if n >= 4 then S.varillas.Llama = true end
+	if n >= 5 then S.llave = true end
+	if n >= 7 then for i = 1, 4 do S.semaforos[i] = true end end
+	if n >= 9 then S.nucleo = true end
+	S.paso = math.max(S.paso, n)
+	hud()
+end
 
 function S.iniciar()
 	crearObjetos()

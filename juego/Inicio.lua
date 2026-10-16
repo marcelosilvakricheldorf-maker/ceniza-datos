@@ -35,6 +35,7 @@ workspace:GetAttributeChangedSignal("Comando"):Connect(function()
 	if c.powerup then E.soltar(c.powerup, Vector3.new(c.pos[1], c.pos[2], c.pos[3])) end
 	if c.perk and plr then M.aplicarPerk(plr, c.perk) end
 	if c.pausa ~= nil then R.pausa = c.pausa end
+	if c.misionPaso then S.debugPaso(c.misionPaso) end
 	if c.pos and c.ir and plr and plr.Character then plr.Character:PivotTo(CFrame.new(c.pos[1], c.pos[2], c.pos[3])) end
 	if c.prompt and plr then
 		-- dispara el ProximityPrompt cuyo padre tiene esa ruta (o el primero que contenga el texto)

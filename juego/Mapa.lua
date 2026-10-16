@@ -372,9 +372,15 @@ local function crearValvulas()
 			if n >= 3 then
 				M.pap.activa = true
 				N.aviso(nil, "¡La Refinadora Vitalix baja sobre el Reactor!", Color3.fromRGB(255, 160, 60))
-				local v = Instance.new("NumberValue"); v.Value = 0
-				v.Changed:Connect(function(a) M.pap.armar(M.pap.arriba:Lerp(M.pap.abajo, a)) end)
-				TS:Create(v, TweenInfo.new(4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { Value = 1 }):Play()
+				task.spawn(function()
+					local t0 = os.clock()
+					while os.clock() - t0 < 4 do
+						local a = TS:GetValue((os.clock() - t0) / 4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+						M.pap.armar(M.pap.arriba:Lerp(M.pap.abajo, a))
+						task.wait()
+					end
+					M.pap.armar(M.pap.abajo)
+				end)
 			else
 				task.delay(90, function()
 					if not M.pap.activa and M.pap.primera == ahora then

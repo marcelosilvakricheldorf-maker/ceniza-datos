@@ -345,10 +345,10 @@ function Z.armarCapataz(d)
 	local m = d.modelo
 	local sims = N.mision and N.mision.hoja or Config.Simbolos
 	for i = 1, 3 do
-		local c = N.parte({ Name = "Cristal", Size = Vector3.new(0.7, 1.4, 0.7), Color = Color3.fromRGB(255, 120, 40), Material = Enum.Material.Neon, Anchored = false, CanCollide = false, Massless = true })
+		local c = N.parte({ Name = "Cristal", Size = Vector3.new(0.9, 1.7, 0.9), Color = Color3.fromRGB(255, 120, 40), Material = Enum.Material.Neon, Anchored = false, CanCollide = false, Massless = true })
 		c:SetAttribute("Simbolo", Config.Simbolos[i])
 		c:SetAttribute("Vida", 600)
-		c.CFrame = m.UpperTorso.CFrame * CFrame.new((i - 2) * 0.8, 0.5, 0.7) * CFrame.Angles(math.rad(20), 0, 0)
+		c.CFrame = m.UpperTorso.CFrame * CFrame.new((i - 2) * 1.0, 0.6, m.UpperTorso.Size.Z / 2 + 0.55) * CFrame.Angles(math.rad(20), 0, 0)
 		local w = Instance.new("WeldConstraint"); w.Part0 = m.UpperTorso; w.Part1 = c; w.Parent = c
 		if N.mision and N.mision.hojaImpresa then
 			local g = Instance.new("BillboardGui"); g.Size = UDim2.fromOffset(60, 24); g.StudsOffset = Vector3.new(0, 1.2, 0); g.AlwaysOnTop = true
@@ -363,7 +363,7 @@ end
 function Z.armarCentinela(d)
 	local m = d.modelo
 	local c = N.parte({ Name = "Celda", Size = Vector3.new(1.4, 1.6, 0.6), Color = Color3.fromRGB(80, 200, 255), Material = Enum.Material.Neon, Anchored = false, CanCollide = false, Massless = true })
-	c.CFrame = m.UpperTorso.CFrame * CFrame.new(0, 0.2, 0.9)
+	c.CFrame = m.UpperTorso.CFrame * CFrame.new(0, 0.2, m.UpperTorso.Size.Z / 2 + 0.35)
 	c:SetAttribute("Multiplicador", 3)
 	local w = Instance.new("WeldConstraint"); w.Part0 = m.UpperTorso; w.Part1 = c; w.Parent = c
 	c.Parent = m
